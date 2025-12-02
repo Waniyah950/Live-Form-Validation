@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+    <title> Live Form Validation </title>
+</head>
+<body class="bg-gray-300">
+    <main>
+      <section class="flex justify-center items-center h-screen">
+        <div class="bg-white border-2 py-6 px-20 rounded-md">
+          <h1
+            class="text-center text-2xl md:text-3xl lg:text-4xl font-bold my-4"
+          >
+            Form
+          </h1>
+          <form
+            class="flex flex-col gap-2 justify-start"
+            id="Login_Start"
+          >
+            <label class="font-bold text-lg"> Username: </label>
+            <small id="username_result_1"> </small>
+            <input
+              type="text"
+              placeholder="Enter Your Username"
+              id="Username"
+              class="outline-1 py-2 px-5 rounded-sm"
+            />
+
+            <label class="font-bold text-lg"> Email: </label>
+            <small id="username_result_2"> </small> 
+            <input
+              type="text"
+              placeholder="Enter Your Email"
+              id="Email"
+              class="outline-1 py-2 px-5 rounded-sm"
+            />
+
+            <label class="font-bold text-lg"> Password: </label>
+            <small id="username_result_3"> </small>  
+            <input
+              type="password"
+              placeholder="Enter Your Password"
+              id="Password"
+              class="outline-1 py-2 px-5 rounded-sm"
+            />
+
+            <label class="font-bold text-lg"> Confirm Password: </label>
+            <small id="username_result_4"> </small> 
+            <input
+              type="password"
+              placeholder="Confirm Your Password"
+              id="Confirm_Password"
+              class="outline-1 py-2 px-5 rounded-sm"
+            />
+
+            <input
+              type="submit"
+              value="Login"
+              id="Submit"
+              class="py-3 px-12 mx-auto rounded-sm bg-black text-white hover:bg-white hover:text-black hover:border-2"
+            />
+
+            <small id="result"> </small> 
+
+          </form>
+        </div>
+      </section>
+    </main>
+    
+    <script>
+
+
+        let username = document.getElementById('Username')
+        let email = document.getElementById('Email')
+        let password = document.getElementById('Password')
+        let confirmPassword = document.getElementById('Confirm_Password')
+        let result = document.getElementById('result')
+        let result_1 = document.getElementById('username_result_1')
+        let result_2 = document.getElementById('username_result_2')
+        let result_3 = document.getElementById('username_result_3')
+        let result_4 = document.getElementById('username_result_4')
+        
+        document.querySelector('form').addEventListener('submit',(event)=>{
+            
+            event.preventDefault()
+            
+            let obj = {
+            username: username.value.trim(),
+            email: email.value.trim(),
+            password: password.value.trim(),
+            confirmPassword: confirmPassword.value.trim()
+            }
+            
+            localStorage.setItem('data', JSON.stringify(obj))
+
+            if (username.value.trim().length >= 3 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()) && /^.{8,}$/.test(password.value.trim()) && password.value.trim() == confirmPassword.value.trim()) {
+            
+                result.innerText = 'Login Sucessful!'
+
+            } 
+            
+            else {
+                
+                result.innerText = 'Try Again!'
+
+            }
+
+        })
+
+
+
+            username.addEventListener('input',()=>{
+
+                if (username.value.trim().length < 3) {
+                    username.style.border = '2px solid red'
+                    result_1.innerText = 'Username length is creating issue', 'Length is:', username.length
+                }
+
+                else{
+                    username.style.border = '2px solid green'
+                    result_1.innerText = ''
+                }
+
+            })
+
+
+            email.addEventListener('input',()=>{
+
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+                    email.style.border = '2px solid red'
+                    result_2.innerText = 'Add proper email'
+                }
+
+                else{
+                    email.style.border = '2px solid green'
+                    result_2.innerText = ''
+                }
+
+            })
+           
+            
+            password.addEventListener('input',()=>{
+
+                if (!/^.{8,}$/.test(password.value.trim())) {
+                    password.style.border = '2px solid red'
+                    result_3.innerText = 'Password length should be more than 8'
+                }
+
+                else{
+                    password.style.border = '2px solid green'
+                    result_3.innerText = ''
+                }
+
+            })
+
+            confirmPassword.addEventListener('input',()=>{
+
+                if (password.value.trim() !== confirmPassword.value.trim()) {
+                    confirmPassword.style.border = '2px solid red'
+                    result_4.innerText = 'Passwords do not match'
+                } 
+                
+                else {
+                    confirmPassword.style.border = '2px solid green'
+                    result_4.innerText = ''
+                }
+            })
+
+
+    </script>
+</body>
